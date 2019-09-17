@@ -7,6 +7,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -19,9 +20,8 @@ public class App
 {	
 	static NetClientGet netClientGet = new NetClientGet();
 	static JsonObject jso = new JsonObject();
-	static URL url;
-	
-	
+	static URL urlGlobal;
+		
     public static void main( String[] args )
     {    	
     	try {
@@ -29,15 +29,23 @@ public class App
 			netClientGet.setUrl(url);
 			netClientGet.getLocation();
 			arreglaSalidaMaps(netClientGet.salida);
-			JsonArray jsaRoutes = jso.getAsJsonArray("routes");			
-			System.out.println(jsaRoutes.toString());
+			JsonArray jsaRoutes = jso.getAsJsonArray("routes");		
+			JsonObject jsoRoutes = (JsonObject) jsaRoutes.get(0);
+			JsonObject jsoLegs = (JsonObject) jsoRoutes.getAsJsonArray("legs").get(0);
+			JsonArray lsaSteps = jsoLegs.getAsJsonArray("steps");
+			for(JsonElement jsoStep : lsaSteps) {
+				JsonObject jsoStartLocation = jsoStep.getAsJsonObject().getAsJsonObject("start_location");
+				JsonObject jsoEndLocation = jsoStep.getAsJsonObject().getAsJsonObject("end_location");
+				//System.out.println(jsoStartLocation.toString());
+				urlGlobal = new URL("https://www.waze.com/row-rtserver/web/TGeoRSS?bottom=" + jsoStartLocation.get("lat").getAsString() + "&left=" + jsoStartLocation.get("lng").getAsString() + "&ma=0&mj=0&mu=400&right=" + jsoEndLocation.get("lng").getAsString() + "&top=" + jsoEndLocation.get("lat").getAsString() + "&types=alerts%2Ctraffic%2Cusers");
+				ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+		    	executor.scheduleAtFixedRate(helloRunnable, 0, 60, TimeUnit.SECONDS);
+			}
+			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-
-    	ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-    	executor.scheduleAtFixedRate(helloRunnable, 0, 60, TimeUnit.SECONDS);
+		}    	
     }
     private static void arreglaSalidaMaps(String salida) {
 		// TODO Auto-generated method stub
@@ -51,16 +59,19 @@ public class App
 	    public void run() {
 	        //System.out.println("GetDatos");	   
 	    	
-			try {
-				URL url = new URL("https://www.waze.com/row-rtserver/web/TGeoRSS?bottom=19.51304459775636&left=-99.28868293762208&ma=0&mj=0&mu=400&right=-99.09092903137207&top=19.55468708780126&types=alerts%2Ctraffic%2Cusers");
-				netClientGet.setUrl(url);
-				netClientGet.getLocation();
-		        //System.out.println(netClientGet.getJso().toString());
-		        System.out.println(netClientGet.salida);
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	    		    	       
+			//URL url = new URL("https://www.waze.com/row-rtserver/web/TGeoRSS?bottom=19.51304459775636&left=-99.28868293762208&ma=0&mj=0&mu=400&right=-99.09092903137207&top=19.55468708780126&types=alerts%2Ctraffic%2Cusers");
+			netClientGet.setUrl(urlGlobal);
+			netClientGet.getLocation();
+			//System.out.println(netClientGet.getJso().toString());
+			//System.out.println(netClientGet.salida);	    		
+			JsonObject jsoWaze = new JsonParser().parse(netClientGet.salida).getAsJsonObject();
+			JsonArray jsaUsers = jsoWaze.get("users").getAsJsonArray();		
+			for(JsonElement jUser: jsaUsers) {
+				JsonObject jsoUser = jUser.getAsJsonObject();
+				JsonObject latlng =  jsoUser.get("location").getAsJsonObject();
+				System.out.println(jsoUser.get("id").getAsString() + "|" + jsoUser.get("speed").getAsString() + "|" + latlng.get("x").toString() + "|" + latlng.get("y").getAsString());
+			}
+			
 	    }
 	};
 }
