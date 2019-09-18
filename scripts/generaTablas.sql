@@ -1,0 +1,103 @@
+-- Database: SEMAFOROV
+
+-- DROP DATABASE "SEMAFOROV";
+
+/*
+CREATE DATABASE "SEMAFOROV"
+    WITH 
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'C'
+    LC_CTYPE = 'UTF-8'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+*/
+
+begin transaction;
+
+DROP TABLE IF EXISTS tbPasos;
+DROP TABLE IF EXISTS tbRutas;
+
+create table tbRutas (fiIdRuta serial primary key,
+					  fcDistance varchar(50),
+					  fiDistance integer,
+					  fcDuration varchar(50),
+					  fiDuration integer,
+					 fcEndAddress varchar(500) not null,
+					 fdoEndLocationLat float8 not null,
+					 fdoEndLocationLng float8 not null,
+					  fcStartAddress varchar(500) not null,
+					 fdoStartLocationLat float8 not null,
+					 fdoStartLocationLng float8 not null);
+
+create table tbPasos (fiIdPaso serial primary key,
+					  fiIdRuta integer references tbRutas(fiIdRuta),
+					 fcDistancia varchar(50) not null,
+					  fiDistancia integer,
+					 fcDuracion varchar(50) not null,
+					  fiDuracion integer,
+					 fdoEndLocationLat float8 not null,
+					 fdoEndLocationLng float8 not null,
+					 fdoStartLocationLat float8 not null,
+					 fdoStartLocationLng float8 not null,
+					 fcPolyLine varchar(1000));
+					 
+select *
+from tbRutas;
+
+select *
+from tbPasos;					 
+					 
+commit transaction;		
+
+begin transaction;
+	insert into tbRutas (fcDistance,
+					  fiDistance,
+					  fcDuration,
+					  fiDuration,
+						fcEndAddress,
+					 fdoEndLocationLat,
+					 fdoEndLocationLng,
+					  fcStartAddress,
+					 fdoStartLocationLat,
+					 fdoStartLocationLng)values(
+						 '33.5 km',
+						 33543,
+						 '50 min',
+						 2999,
+						 'Av de los Insurgentes Sur 4415, Tlalcoligia, 14430 Ciudad de México, CDMX, México',
+						 19.2800359,
+						 -99.17047029999999,
+						 'Indios Verdes, Residencial Zacatenco, 07369 Santa Isabel Tola, CDMX, México',
+						 19.4950569,
+						 -99.11982119999999
+					 );
+	 select currval(pg_get_serial_sequence('tbrutas','fiidruta'));
+	insert into tbPasos (fiIdRuta,
+					 fcDistancia,
+					fiDistancia,
+					 fcDuracion,
+					fiDuracion,
+					 fdoEndLocationLat,
+					 fdoEndLocationLng,
+					 fdoStartLocationLat,
+					 fdoStartLocationLng,
+					 fcPolyLine)values(
+						 currval(pg_get_serial_sequence('tbrutas','fiidruta')), 
+						 '3.2 km',
+						 3241,
+						 '3 min',
+						 202,
+						 19.471264,
+						 -99.1371211,
+						 19.4950569,
+						 -99.11982119999999,
+						 'cs~uBzi~{QjAPh@FTB`@Dv@Df@FZDd@FVDNBLBJBrBb@@?zA^d@Jb@L\\JXJJDJDLDPHXLDBPHLFPHLH\\RZPDDFDJHNJZV~AnAFDHFVPp@h@vAhAb@Z|C`C^XlA|@f@b@t@j@z@t@`Ax@NNfAz@TPl@d@PLf@`@tA`Al@b@rBxAr@j@PJn@f@`@Zz@p@JFZVLHrAbAl@d@pDrCnA`Al@f@n@d@dDfC|AnA|BnBnDpCr@h@b@\\dAv@HDZT\\THFh@`@`@X|@p@`E~CrEdDl@b@pB~A^Z`EjD'
+					 );
+					 
+select *
+from tbRutas;
+
+select *
+from tbPasos;					 
+rollback transaction;

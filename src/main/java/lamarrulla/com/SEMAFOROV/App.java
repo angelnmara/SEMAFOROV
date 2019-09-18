@@ -29,9 +29,7 @@ public class App
 		
     public static void main( String[] args )
     {    	
-    	try {
-    		DbAcces dbAcces = new DbAcces();
-    		dbAcces.connectDatabase();
+    	try {    		
 			//URL url = new URL("https://maps.googleapis.com/maps/api/js/DirectionsService.Route?5m4&1m3&1m2&1d19.4950119&2d-99.11960449999998&5m4&1m3&1m2&1d19.2800339&2d-99.17037160000001&6e0&12ses-MX&23e1&callback=_xdc_._ft28bq&key=AIzaSyAndp8rBJEaJnxjKdLJV5rfxE8guaZH3Ic&token=106168");
 			URL url = new URL("https://maps.googleapis.com/maps/api/js/DirectionsService.Route?5m4&1m3&1m2&1d" + P1Latitude + "&2d" + P1Longitude + "&5m4&1m3&1m2&1d" + P2Latitude + "&2d" + P2Longitude + "&6e0&12ses-MX&23e1&callback=_xdc_._ft28bq&key=" + yEk + "&token=9160");
 			netClientGet.setUrl(url);
@@ -64,6 +62,10 @@ public class App
     				.replace("\\u003cb\\u003e", "");
     			salida = salida.substring(0, salida.length()-1);
     			jso = new JsonParser().parse(salida).getAsJsonObject();
+    			System.out.println(jso.toString());
+    			Inserts ins = new Inserts();
+    			ins.setJso(jso);
+    			ins.InsertRutas();
     	}
 	}
 	static Runnable helloRunnable = new Runnable() {
