@@ -21,26 +21,36 @@ public class App
 	static NetClientGet netClientGet = new NetClientGet();
 	static JsonObject jso = new JsonObject();
 	static URL urlGlobal;
+	static String P1Latitude = "19.4950119";
+	static String P1Longitude = "-99.11960449999998";
+	static String P2Latitude = "19.2800339";
+	static String P2Longitude = "-99.17037160000001";
+	static String yEk = "AIzaSyDkeEm6iunIM2P4qFZbYmxaxhItMUsY_h0";
 		
     public static void main( String[] args )
     {    	
     	try {
-			URL url = new URL("https://maps.googleapis.com/maps/api/js/DirectionsService.Route?5m4&1m3&1m2&1d19.4950119&2d-99.11960449999998&5m4&1m3&1m2&1d19.2800339&2d-99.17037160000001&6e0&12ses-MX&23e1&callback=_xdc_._ft28bq&key=AIzaSyAndp8rBJEaJnxjKdLJV5rfxE8guaZH3Ic&token=106168");
+    		DbAcces dbAcces = new DbAcces();
+    		dbAcces.connectDatabase();
+			//URL url = new URL("https://maps.googleapis.com/maps/api/js/DirectionsService.Route?5m4&1m3&1m2&1d19.4950119&2d-99.11960449999998&5m4&1m3&1m2&1d19.2800339&2d-99.17037160000001&6e0&12ses-MX&23e1&callback=_xdc_._ft28bq&key=AIzaSyAndp8rBJEaJnxjKdLJV5rfxE8guaZH3Ic&token=106168");
+			URL url = new URL("https://maps.googleapis.com/maps/api/js/DirectionsService.Route?5m4&1m3&1m2&1d" + P1Latitude + "&2d" + P1Longitude + "&5m4&1m3&1m2&1d" + P2Latitude + "&2d" + P2Longitude + "&6e0&12ses-MX&23e1&callback=_xdc_._ft28bq&key=" + yEk + "&token=9160");
 			netClientGet.setUrl(url);
 			netClientGet.getLocation();
 			arreglaSalidaMaps(netClientGet.salida);
-			JsonArray jsaRoutes = jso.getAsJsonArray("routes");		
-			JsonObject jsoRoutes = (JsonObject) jsaRoutes.get(0);
-			JsonObject jsoLegs = (JsonObject) jsoRoutes.getAsJsonArray("legs").get(0);
-			JsonArray lsaSteps = jsoLegs.getAsJsonArray("steps");
-			for(JsonElement jsoStep : lsaSteps) {
-				JsonObject jsoStartLocation = jsoStep.getAsJsonObject().getAsJsonObject("start_location");
-				JsonObject jsoEndLocation = jsoStep.getAsJsonObject().getAsJsonObject("end_location");
-				//System.out.println(jsoStartLocation.toString());
-				urlGlobal = new URL("https://www.waze.com/row-rtserver/web/TGeoRSS?bottom=" + jsoStartLocation.get("lat").getAsString() + "&left=" + jsoStartLocation.get("lng").getAsString() + "&ma=0&mj=0&mu=400&right=" + jsoEndLocation.get("lng").getAsString() + "&top=" + jsoEndLocation.get("lat").getAsString() + "&types=alerts%2Ctraffic%2Cusers");
-				ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-		    	executor.scheduleAtFixedRate(helloRunnable, 0, 60, TimeUnit.SECONDS);
-			}
+			if(jso.has("routes")) {
+				JsonArray jsaRoutes = jso.getAsJsonArray("routes");		
+				JsonObject jsoRoutes = (JsonObject) jsaRoutes.get(0);
+				JsonObject jsoLegs = (JsonObject) jsoRoutes.getAsJsonArray("legs").get(0);
+				JsonArray lsaSteps = jsoLegs.getAsJsonArray("steps");
+				for(JsonElement jsoStep : lsaSteps) {
+					JsonObject jsoStartLocation = jsoStep.getAsJsonObject().getAsJsonObject("start_location");
+					JsonObject jsoEndLocation = jsoStep.getAsJsonObject().getAsJsonObject("end_location");
+					//System.out.println(jsoStartLocation.toString());
+					urlGlobal = new URL("https://www.waze.com/row-rtserver/web/TGeoRSS?bottom=" + jsoStartLocation.get("lat").getAsString() + "&left=" + jsoStartLocation.get("lng").getAsString() + "&ma=0&mj=0&mu=400&right=" + jsoEndLocation.get("lng").getAsString() + "&top=" + jsoEndLocation.get("lat").getAsString() + "&types=alerts%2Ctraffic%2Cusers");
+					ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+			    	executor.scheduleAtFixedRate(helloRunnable, 0, 60, TimeUnit.SECONDS);
+				}
+			}			
 			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -49,11 +59,12 @@ public class App
     }
     private static void arreglaSalidaMaps(String salida) {
 		// TODO Auto-generated method stub
-		salida = salida.replace("/**/_xdc_._ft28bq && _xdc_._ft28bq(", "")
-			.replace("\\u003cb\\u003e", "");
-		salida = salida.substring(0, salida.length()-1);
-		jso = new JsonParser().parse(salida).getAsJsonObject();
-		
+    	if(salida.length()>0) {
+    		salida = salida.replace("/**/_xdc_._ft28bq && _xdc_._ft28bq(", "")
+    				.replace("\\u003cb\\u003e", "");
+    			salida = salida.substring(0, salida.length()-1);
+    			jso = new JsonParser().parse(salida).getAsJsonObject();
+    	}
 	}
 	static Runnable helloRunnable = new Runnable() {
 	    public void run() {
