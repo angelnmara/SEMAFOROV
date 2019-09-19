@@ -137,7 +137,7 @@ public class tbRutas {
 			String fcStartAddres,
 			double fdoStartLocationLat,
 			double fdoStartLocationLng) {		
-		qryStringInsert = String.format("insert into tbRutas (fcDistance, fiDistance, fcDuration, fiDuration, fcEndAddress, fdoEndLocationLat, fdoEndLocationLng, fcStartAddress, fdoStartLocationLat, fdoStartLocationLng)values('%s', %o, '%s', %o, '%s', %f, %f, '%s', %f, %f) returning fiIdRuta; ",
+		qryStringInsert = String.format("insert into tbRutas (fcDistance, fiDistance, fcDuration, fiDuration, fcEndAddress, fdoEndLocationLat, fdoEndLocationLng, fcStartAddress, fdoStartLocationLat, fdoStartLocationLng)values('%s', %d, '%s', %d, '%s', %f, %f, '%s', %f, %f) returning fiIdRuta; ",
 				fcDistance,
 				fiDistance,
 				fcDuration,

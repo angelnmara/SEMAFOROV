@@ -126,7 +126,7 @@ public class tbPasos {
 			double fdoStartLocationLat,
 			double fdoStartLocationLng,
 			String fcPolyLine) {
-		qryStringInsert = String.format("insert into tbPasos (fiIdRuta, fcDistancia, fiDistancia, fcDuracion, fiDuracion, fdoEndLocationLat, fdoEndLocationLng, fdoStartLocationLat, fdoStartLocationLng, fcPolyLine)values(%o, '%s', %o,'%s', %o, %f, %f, %f, %f,'%s');",  
+		qryStringInsert = String.format("insert into tbPasos (fiIdRuta, fcDistancia, fiDistancia, fcDuracion, fiDuracion, fdoEndLocationLat, fdoEndLocationLng, fdoStartLocationLat, fdoStartLocationLng, fcPolyLine)values(%d, '%s', %d,'%s', %d, %f, %f, %f, %f,'%s');",  
 				id,
 				fcDistancia, 
 				fiDistancia,
