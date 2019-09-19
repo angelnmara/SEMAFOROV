@@ -1,8 +1,5 @@
 package lamarrulla.com.SEMAFOROV;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -13,6 +10,7 @@ import lamarrulla.com.Model.tbRutas;
 public class Inserts {
 	
 	JsonObject jso;
+	int id;
 	
 	public JsonObject getJso() {
 		return jso;
@@ -22,7 +20,10 @@ public class Inserts {
 		this.jso = jso;
 	}
 
-	public void InsertRutas() {		
+	public void InsertRutas() {
+		
+		/*	prepara rutas	*/
+		
 		if(jso.has("routes")) {
 			JsonArray jsaRoutes = jso.getAsJsonArray("routes");		
 			JsonObject jsoRoutes = (JsonObject) jsaRoutes.get(0);
@@ -53,8 +54,7 @@ public class Inserts {
 					jsoEndLocation.get("lng").getAsDouble(), 
 					jsoLegs.get("start_address").getAsString(), 
 					jsoStartLocation.get("lat").getAsDouble(), 
-					jsoStartLocation.get("lng").getAsDouble());
-			JsonArray lsaSteps = jsoLegs.getAsJsonArray("steps");			
+					jsoStartLocation.get("lng").getAsDouble());						
 			
 			/*	insert rutas	*/
 			
@@ -62,12 +62,16 @@ public class Inserts {
     		dbAcces.connectDatabase();
     		dbAcces.setStrQuery(tbrutas.getQryInsert());
     		dbAcces.Insert();
+    		id = dbAcces.getIdReturned();
     		dbAcces.disconnectDatabase();
     		
     		/*	insert rutas	*/
     		
+    		/*	prepara steps	*/
+    		
+    		JsonArray lsaSteps = jsoLegs.getAsJsonArray("steps");
 			
-			List<tbPasos> listTbPasos = new ArrayList<tbPasos>();
+			/* List<tbPasos> listTbPasos = new ArrayList<tbPasos>(); */
 			
 			for(JsonElement jStep : lsaSteps) {
 				JsonObject jsoStep = jStep.getAsJsonObject();
@@ -76,7 +80,9 @@ public class Inserts {
 				JsonObject jsoEndLocationStep = jsoStep.getAsJsonObject().getAsJsonObject("end_location");
 				JsonObject jsoStartLocationStep = jsoStep.getAsJsonObject().getAsJsonObject("start_location");
 				
-				tbPasos tbpasos = new tbPasos(
+				tbPasos tbpasos = new tbPasos();
+				tbpasos.tbPasosInsert(
+						id,
 						jsoDistanceStep.get("text").getAsString(), 
 						jsoDistanceStep.get("value").getAsInt(), 
 						jsoDurationStep.get("text").getAsString(), 
@@ -86,8 +92,25 @@ public class Inserts {
 						jsoStartLocationStep.get("lat").getAsDouble(),
 						jsoStartLocationStep.get("lng").getAsDouble(), 
 						jsoStep.get("polyline").getAsJsonObject().get("points").getAsString());
-			
-				listTbPasos.add(tbpasos);
+								
+	    		dbAcces.connectDatabase();
+	    		dbAcces.setStrQuery(tbpasos.getQryStringInsert());
+	    		dbAcces.Insert();
+	    		dbAcces.disconnectDatabase();
+				
+				/*
+				 * tbPasos tbpasos = new tbPasos( jsoDistanceStep.get("text").getAsString(),
+				 * jsoDistanceStep.get("value").getAsInt(),
+				 * jsoDurationStep.get("text").getAsString(),
+				 * jsoDurationStep.get("value").getAsInt(),
+				 * jsoEndLocationStep.get("lat").getAsDouble(),
+				 * jsoEndLocationStep.get("lng").getAsDouble(),
+				 * jsoStartLocationStep.get("lat").getAsDouble(),
+				 * jsoStartLocationStep.get("lng").getAsDouble(),
+				 * jsoStep.get("polyline").getAsJsonObject().get("points").getAsString());
+				 * 
+				 * listTbPasos.add(tbpasos);
+				 */
 			  System.out.println(jsoStartLocation.toString()); 
 			}			 
 		}

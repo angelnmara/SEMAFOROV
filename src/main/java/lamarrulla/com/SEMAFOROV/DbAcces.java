@@ -19,8 +19,15 @@ public class DbAcces {
 	boolean closePs;
 	boolean closeConnection;
 	
-	String strQuery;	
+	String strQuery;
+	int idReturned;
 	
+	public int getIdReturned() {
+		return idReturned;
+	}
+	public void setIdReturned(int idReturned) {
+		this.idReturned = idReturned;
+	}
 	public String getStrQuery() {
 		return strQuery;
 	}
@@ -73,7 +80,12 @@ public class DbAcces {
 	public void Insert() {
 		try {
 			ps = connection.prepareStatement(strQuery);
-			ps.executeUpdate();
+			ps.execute();
+			rs = ps.getResultSet();
+			if(rs.next()) {
+				idReturned = rs.getInt(1);
+			}								
+						
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

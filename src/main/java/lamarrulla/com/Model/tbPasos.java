@@ -73,6 +73,14 @@ public class tbPasos {
 	public void setFcPolyLine(String fcPolyLine) {
 		this.fcPolyLine = fcPolyLine;
 	}
+	
+	public String getQryStringInsert() {
+		return qryStringInsert;
+	}
+
+	public void setQryStringInsert(String qryStringInsert) {
+		this.qryStringInsert = qryStringInsert;
+	}
 
 	private String fcDistancia;
 	private int fiDistancia;
@@ -83,7 +91,8 @@ public class tbPasos {
 	private double fdoStartLocationLat;
 	private double fdoStartLocationLng;
 	private String fcPolyLine;
-	
+	private String qryStringInsert;
+
 	public tbPasos() {}
 	
 	public tbPasos(String fcDistancia, 
@@ -104,5 +113,29 @@ public class tbPasos {
 		this.fdoStartLocationLat = fdoStartLocationLat;
 		this.fdoStartLocationLng = fdoStartLocationLng;
 		this.fcPolyLine = fcPolyLine;
+	}	
+	
+	public void tbPasosInsert(
+			int id,
+			String fcDistancia, 
+			int fiDistancia, 
+			String fcDuracion, 
+			int fiDuracion, 
+			double fdoEndLocationLat, 
+			double fdoEndLocationLng,
+			double fdoStartLocationLat,
+			double fdoStartLocationLng,
+			String fcPolyLine) {
+		qryStringInsert = String.format("insert into tbPasos (fiIdRuta, fcDistancia, fiDistancia, fcDuracion, fiDuracion, fdoEndLocationLat, fdoEndLocationLng, fdoStartLocationLat, fdoStartLocationLng, fcPolyLine)values(%o, '%s', %o,'%s', %o, %f, %f, %f, %f,'%s');",  
+				id,
+				fcDistancia, 
+				fiDistancia,
+				fcDuracion,
+				fiDuracion,
+				fdoEndLocationLat,
+				fdoEndLocationLng,
+				fdoStartLocationLat,
+				fdoStartLocationLng,
+				fcPolyLine);
 	}	
 }
