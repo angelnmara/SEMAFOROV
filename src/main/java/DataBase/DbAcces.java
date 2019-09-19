@@ -1,4 +1,4 @@
-package lamarrulla.com.SEMAFOROV;
+package DataBase;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -82,10 +82,11 @@ public class DbAcces {
 			ps = connection.prepareStatement(strQuery);
 			ps.execute();
 			rs = ps.getResultSet();
-			if(rs.next()) {
-				idReturned = rs.getInt(1);
-			}								
-						
+			if(rs!=null) {
+				if(rs.next()) {
+					idReturned = rs.getInt(1);
+				}	
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

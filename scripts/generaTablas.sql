@@ -99,5 +99,13 @@ select *
 from tbRutas;
 
 select *
-from tbPasos;					 
+from tbPasos;			
+
 rollback transaction;
+
+begin transaction;
+insert into tbRutas (fcDistance, fiDistance, fcDuration, fiDuration, fcEndAddress, fdoEndLocationLat, fdoEndLocationLng, fcStartAddress, fdoStartLocationLat, fdoStartLocationLng)values('33.5 km', 101407, '50 min', 5667, 'Av de los Insurgentes Sur 4415, Tlalcoligia, 14430 Ciudad de México, CDMX, México', 19.280036, -99.170470, 'Indios Verdes, Residencial Zacatenco, 07369 Santa Isabel Tola, CDMX, México', 19.495057, -99.119821) returning fiIdRuta; 
+rollback transaction;
+
+
+

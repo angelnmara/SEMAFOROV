@@ -1,4 +1,4 @@
-package lamarrulla.com.SEMAFOROV;
+package APIRest;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -7,7 +7,7 @@ import java.net.URL;
 
 import com.google.gson.JsonObject;
 
-public class NetClientGet {
+public class API {
 	JsonObject jso;
 	String salida="";
 	URL url;
@@ -30,7 +30,7 @@ public class NetClientGet {
 		this.jso = jso;
 	}
 	
-	public void getLocation() {
+	public void get() {
         try {        	
             //URL url = new URL("https://maps.googleapis.com/maps/api/js/DirectionsService.Route?5m4&1m3&1m2&1d19.4950119&2d-99.11960449999998&5m4&1m3&1m2&1d19.2800339&2d-99.17037160000001&6e0&12ses-MX&23e1&callback=_xdc_._ft28bq&key=AIzaSyAndp8rBJEaJnxjKdLJV5rfxE8guaZH3Ic&token=106168");//your url i.e fetch data from .
             //URL url = new URL("https://www.waze.com/row-rtserver/web/TGeoRSS?bottom=19.51304459775636&left=-99.28868293762208&ma=0&mj=0&mu=400&right=-99.09092903137207&top=19.55468708780126&types=alerts%2Ctraffic%2Cusers");//your url i.e fetch data from .
