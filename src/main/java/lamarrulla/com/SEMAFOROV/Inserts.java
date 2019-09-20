@@ -58,10 +58,10 @@ public class Inserts {
 					while(!isL) {
 						tbDatosGeneraRutas dgr = new tbDatosGeneraRutas(
 								rs.getString(2), 
-								rs.getDouble(3),
-								rs.getDouble(4), 
-								rs.getDouble(5), 
-								rs.getDouble(6), 
+								rs.getBigDecimal(3).doubleValue(),
+								rs.getBigDecimal(4).doubleValue(), 
+								rs.getBigDecimal(5).doubleValue(), 
+								rs.getBigDecimal(6).doubleValue(), 
 								rs.getString(7), 
 								rs.getString(8));
 						listDatosGeneraRutas.add(dgr);
