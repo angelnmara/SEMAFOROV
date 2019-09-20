@@ -1,10 +1,6 @@
 package lamarrulla.com.SEMAFOROV;
 
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -19,18 +15,19 @@ import APIRest.API;
 public class App 
 {	
 	static API api = new API();
-	static JsonObject jso = new JsonObject();
+//	static JsonObject jso = new JsonObject();
 	static URL urlGlobal;
-	static String P1Latitude = "19.4950119";
-	static String P1Longitude = "-99.11960449999998";
-	static String P2Latitude = "19.2800339";
-	static String P2Longitude = "-99.17037160000001";
-	static String yEk = "AIzaSyDkeEm6iunIM2P4qFZbYmxaxhItMUsY_h0";
+//	static String P1Latitude = "19.4950119";
+//	static String P1Longitude = "-99.11960449999998";
+//	static String P2Latitude = "19.2800339";
+//	static String P2Longitude = "-99.17037160000001";
+//	static String yEk = "AIzaSyDkeEm6iunIM2P4qFZbYmxaxhItMUsY_h0";
 		
     public static void main( String[] args )
     {   
-    	SaveRutasPasos srp = new SaveRutasPasos();
-    	srp.SaveRutas();
+    	SaveRutasPasos srp = new SaveRutasPasos();    
+    	srp.generaDatosForRutas();
+    	
 //    	try {    		
 //			//URL url = new URL("https://maps.googleapis.com/maps/api/js/DirectionsService.Route?5m4&1m3&1m2&1d19.4950119&2d-99.11960449999998&5m4&1m3&1m2&1d19.2800339&2d-99.17037160000001&6e0&12ses-MX&23e1&callback=_xdc_._ft28bq&key=AIzaSyAndp8rBJEaJnxjKdLJV5rfxE8guaZH3Ic&token=106168");
 //			URL url = new URL("https://maps.googleapis.com/maps/api/js/DirectionsService.Route?5m4&1m3&1m2&1d" + P1Latitude + "&2d" + P1Longitude + "&5m4&1m3&1m2&1d" + P2Latitude + "&2d" + P2Longitude + "&6e0&12ses-MX&23e1&callback=_xdc_._ft28bq&key=" + yEk + "&token=9160");
@@ -58,19 +55,19 @@ public class App
 //		}    	
     }
     
-    private static void arreglaSalidaMaps(String salida) {
-		// TODO Auto-generated method stub
-    	if(salida.length()>0) {
-    		salida = salida.replace("/**/_xdc_._ft28bq && _xdc_._ft28bq(", "")
-    				.replace("\\u003cb\\u003e", "");
-    			salida = salida.substring(0, salida.length()-1);
-    			jso = new JsonParser().parse(salida).getAsJsonObject();
-    			System.out.println(jso.toString());
-    			Inserts ins = new Inserts();
-    			ins.setJso(jso);
-    			ins.InsertRutas();
-    	}
-	}
+//    private static void arreglaSalidaMaps(String salida) {
+//		// TODO Auto-generated method stub
+//    	if(salida.length()>0) {
+//    		salida = salida.replace("/**/_xdc_._ft28bq && _xdc_._ft28bq(", "")
+//    				.replace("\\u003cb\\u003e", "");
+//    			salida = salida.substring(0, salida.length()-1);
+//    			jso = new JsonParser().parse(salida).getAsJsonObject();
+//    			System.out.println(jso.toString());
+//    			Inserts ins = new Inserts();
+//    			ins.setJso(jso);
+//    			ins.InsertRutas();
+//    	}
+//	}
     
 	static Runnable helloRunnable = new Runnable() {
 	    public void run() {

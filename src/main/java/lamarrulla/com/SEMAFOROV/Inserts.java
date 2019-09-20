@@ -1,10 +1,16 @@
 package lamarrulla.com.SEMAFOROV;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import DataBase.DbAcces;
+import lamarrulla.com.Model.tbDatosGeneraRutas;
 import lamarrulla.com.Model.tbPasos;
 import lamarrulla.com.Model.tbRutas;
 
@@ -12,7 +18,18 @@ public class Inserts {
 	
 	JsonObject jso;
 	int id;
+	DbAcces dbAcces = new DbAcces();
+	List<tbRutas> listTbRutas;
+	List<tbDatosGeneraRutas> listDatosGeneraRutas;
 	
+	public List<tbRutas> getListTbRutas() {
+		return listTbRutas;
+	}
+
+	public void setListTbRutas(List<tbRutas> listTbRutas) {
+		this.listTbRutas = listTbRutas;
+	}
+
 	public JsonObject getJso() {
 		return jso;
 	}
@@ -20,8 +37,81 @@ public class Inserts {
 	public void setJso(JsonObject jso) {
 		this.jso = jso;
 	}
+	
+	public List<tbDatosGeneraRutas> getListDatosGeneraRutas() {
+		return listDatosGeneraRutas;
+	}
 
-	public void InsertRutas() {
+	public void setListDatosGeneraRutas(List<tbDatosGeneraRutas> listDatosGeneraRutas) {
+		this.listDatosGeneraRutas = listDatosGeneraRutas;
+	}
+
+	public void selectGeneraDatosForRutas() {		
+			try {
+				listDatosGeneraRutas = new ArrayList<tbDatosGeneraRutas>(); 
+				dbAcces.connectDatabase();
+				dbAcces.setStrQuery("select * from tbDatosGeneraRutas");
+				dbAcces.execQry();
+				ResultSet rs = dbAcces.getRs();
+				if(rs!=null) {
+					boolean isL = false;
+					while(!isL) {
+						tbDatosGeneraRutas dgr = new tbDatosGeneraRutas(
+								rs.getString(2), 
+								rs.getDouble(3),
+								rs.getDouble(4), 
+								rs.getDouble(5), 
+								rs.getDouble(6), 
+								rs.getString(7), 
+								rs.getString(8));
+						listDatosGeneraRutas.add(dgr);
+						if(rs.isLast()) {
+							isL = true;
+						}else{
+							rs.next();
+						};
+						//System.out.println();
+					}
+				}				
+				dbAcces.disconnectDatabase();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
+	}
+	
+	public void selectRutas() {
+		try {
+			listTbRutas = new ArrayList<tbRutas>();
+			dbAcces.connectDatabase();
+			dbAcces.setStrQuery("select * from tbrutas");
+			dbAcces.execQry();
+			ResultSet rs = dbAcces.getRs();
+			if(rs!=null) {
+				while(rs.next()) {
+					tbRutas tbruta = new tbRutas(
+							rs.getString(2), 
+							rs.getInt(3), 
+							rs.getString(4), 
+							rs.getInt(5), 
+							rs.getString(6), 
+							rs.getDouble(7), 
+							rs.getDouble(8), 
+							rs.getString(9), 
+							rs.getDouble(10), 
+							rs.getDouble(11));
+					listTbRutas.add(tbruta);
+					//System.out.println();
+				}
+			}
+			dbAcces.disconnectDatabase();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}		
+
+	public void insertRutas() {
 		
 		/*	prepara rutas	*/
 		
@@ -58,11 +148,10 @@ public class Inserts {
 					jsoStartLocation.get("lng").getAsDouble());						
 			
 			/*	insert rutas	*/
-			
-			DbAcces dbAcces = new DbAcces();
+						
     		dbAcces.connectDatabase();
     		dbAcces.setStrQuery(tbrutas.getQryInsert());
-    		dbAcces.Insert();
+    		dbAcces.execQry();
     		id = dbAcces.getIdReturned();
     		dbAcces.disconnectDatabase();
     		
@@ -96,7 +185,7 @@ public class Inserts {
 								
 	    		dbAcces.connectDatabase();
 	    		dbAcces.setStrQuery(tbpasos.getQryStringInsert());
-	    		dbAcces.Insert();
+	    		dbAcces.execQry();
 	    		dbAcces.disconnectDatabase();
 				
 				/*

@@ -15,6 +15,7 @@ public class DbAcces {
 	Connection connection = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
+	
 	boolean closeRs;
 	boolean closePs;
 	boolean closeConnection;
@@ -34,6 +35,14 @@ public class DbAcces {
 	public void setStrQuery(String strQuery) {
 		this.strQuery = strQuery;
 	}
+	
+	public ResultSet getRs() {
+		return rs;
+	}
+	public void setRs(ResultSet rs) {
+		this.rs = rs;
+	}
+	
 	public void connectDatabase() {
         try {
             // We register the PostgreSQL driver
@@ -77,10 +86,10 @@ public class DbAcces {
 			System.out.println("Existio un error al cerrar la conexion");
 		}		
 	}
-	public void Insert() {
+	public void execQry() {
 		try {
 			ps = connection.prepareStatement(strQuery);
-			ps.execute();
+			ps.executeQuery();
 			rs = ps.getResultSet();
 			if(rs!=null) {
 				if(rs.next()) {
@@ -92,5 +101,5 @@ public class DbAcces {
 			e.printStackTrace();
 			System.out.println("error al ejecutar insert: " + e.getMessage());
 		}					
-	}
+	}	
 }

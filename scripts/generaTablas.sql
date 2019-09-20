@@ -15,10 +15,20 @@ CREATE DATABASE "SEMAFOROV"
 
 begin transaction;
 
+drop table if exists tbDatosGeneraRutas;
 DROP TABLE IF EXISTS tbPasos;
 DROP TABLE IF EXISTS tbRutas;
 
-create table tbRutas (fiIdRuta serial primary key,
+create table if not exists tbDatosGeneraRutas(fiIdDatosGeneraRutas serial primary key,
+								fcDescDatosGeneraRutas varchar(200),
+							   fdoEndLocationLat float8 not null,
+							   fdoEndLocationLng float8 not null,
+							   fdoStartLocationLat float8 not null,
+							   fdoStartLocationLng float8 not null,
+											 fcYek varchar(1000),
+											 fcToken varchar(100));
+
+create table if not exists tbRutas (fiIdRuta serial primary key,
 					  fcDistance varchar(50),
 					  fiDistance integer,
 					  fcDuration varchar(50),
@@ -30,7 +40,7 @@ create table tbRutas (fiIdRuta serial primary key,
 					 fdoStartLocationLat float8 not null,
 					 fdoStartLocationLng float8 not null);
 
-create table tbPasos (fiIdPaso serial primary key,
+create table if not exists tbPasos (fiIdPaso serial primary key,
 					  fiIdRuta integer references tbRutas(fiIdRuta),
 					 fcDistancia varchar(50) not null,
 					  fiDistancia integer,
@@ -42,11 +52,20 @@ create table tbPasos (fiIdPaso serial primary key,
 					 fdoStartLocationLng float8 not null,
 					 fcPolyLine varchar(1000));
 					 
-select *
-from tbRutas;
-
-select *
-from tbPasos;					 
+insert into tbDatosGeneraRutas(fcDescDatosGeneraRutas,
+							fdoEndLocationLat,
+							   fdoEndLocationLng,
+							   fdoStartLocationLat,
+							   fdoStartLocationLng,
+							  fcYek, 
+							  fcToken)
+							   values('Indios verdes - Universidad',
+								   19.280036, 
+									  -99.17047, 
+									  19.495057, 
+									  -99.119821, 
+									 'AIzaSyDkeEm6iunIM2P4qFZbYmxaxhItMUsY_h0', 
+									 '9160');
 					 
 commit transaction;		
 
@@ -100,6 +119,9 @@ from tbRutas;
 
 select *
 from tbPasos;			
+
+select *
+from tbDatosGeneraRutas
 
 rollback transaction;
 
