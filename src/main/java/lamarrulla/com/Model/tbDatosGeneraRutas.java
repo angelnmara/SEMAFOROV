@@ -1,7 +1,9 @@
 package lamarrulla.com.Model;
 
-public class tbDatosGeneraRutas {
-	
+import java.math.BigDecimal;
+
+public class tbDatosGeneraRutas {	
+
 	public String getFcDescDatosGeneraRutas() {
 		return fcDescDatosGeneraRutas;
 	}
@@ -10,35 +12,35 @@ public class tbDatosGeneraRutas {
 		this.fcDescDatosGeneraRutas = fcDescDatosGeneraRutas;
 	}
 
-	public double getFdoEndLocationLat() {
+	public BigDecimal getFdoEndLocationLat() {
 		return fdoEndLocationLat;
 	}
 
-	public void setFdoEndLocationLat(double fdoEndLocationLat) {
+	public void setFdoEndLocationLat(BigDecimal fdoEndLocationLat) {
 		this.fdoEndLocationLat = fdoEndLocationLat;
 	}
 
-	public double getFdoEndLocationLng() {
+	public BigDecimal getFdoEndLocationLng() {
 		return fdoEndLocationLng;
 	}
 
-	public void setFdoEndLocationLng(double fdoEndLocationLng) {
+	public void setFdoEndLocationLng(BigDecimal fdoEndLocationLng) {
 		this.fdoEndLocationLng = fdoEndLocationLng;
 	}
 
-	public double getFdoStartLocationLat() {
+	public BigDecimal getFdoStartLocationLat() {
 		return fdoStartLocationLat;
 	}
 
-	public void setFdoStartLocationLat(double fdoStartLocationLat) {
+	public void setFdoStartLocationLat(BigDecimal fdoStartLocationLat) {
 		this.fdoStartLocationLat = fdoStartLocationLat;
 	}
 
-	public double getFdoStartLocationLng() {
+	public BigDecimal getFdoStartLocationLng() {
 		return fdoStartLocationLng;
 	}
 
-	public void setFdoStartLocationLng(double fdoStartLocationLng) {
+	public void setFdoStartLocationLng(BigDecimal fdoStartLocationLng) {
 		this.fdoStartLocationLng = fdoStartLocationLng;
 	}
 
@@ -59,18 +61,18 @@ public class tbDatosGeneraRutas {
 	}
 
 	private String fcDescDatosGeneraRutas;
-	private double fdoEndLocationLat;
-	private double fdoEndLocationLng;
-	private double fdoStartLocationLat;
-	private double fdoStartLocationLng;
+	private BigDecimal fdoEndLocationLat;
+	private BigDecimal fdoEndLocationLng;
+	private BigDecimal fdoStartLocationLat;
+	private BigDecimal fdoStartLocationLng;
 	private String fcYek;
 	private String fcToken;
 	
 	public tbDatosGeneraRutas() {}
 	
-	public tbDatosGeneraRutas(String fcDescDatosGeneraRutas, double fdoEndLocationLat, double fdoEndLocationLng, 
-			double fdoStartLocationLat,
-			double fdoStartLocationLng,
+	public tbDatosGeneraRutas(String fcDescDatosGeneraRutas, BigDecimal fdoEndLocationLat, BigDecimal fdoEndLocationLng, 
+			BigDecimal fdoStartLocationLat,
+			BigDecimal fdoStartLocationLng,
 			String fcYek,
 			String fcToken) {
 		this.fcDescDatosGeneraRutas = fcDescDatosGeneraRutas;

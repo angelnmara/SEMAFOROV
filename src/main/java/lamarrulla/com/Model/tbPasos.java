@@ -1,7 +1,9 @@
 package lamarrulla.com.Model;
 
-public class tbPasos {
-	
+import java.math.BigDecimal;
+
+public class tbPasos {	
+
 	public String getFcDistancia() {
 		return fcDistancia;
 	}
@@ -34,35 +36,35 @@ public class tbPasos {
 		this.fiDuracion = fiDuracion;
 	}
 
-	public double getFdoEndLocationLat() {
+	public BigDecimal getFdoEndLocationLat() {
 		return fdoEndLocationLat;
 	}
 
-	public void setFdoEndLocationLat(double fdoEndLocationLat) {
+	public void setFdoEndLocationLat(BigDecimal fdoEndLocationLat) {
 		this.fdoEndLocationLat = fdoEndLocationLat;
 	}
 
-	public double getFdoEndLocationLng() {
+	public BigDecimal getFdoEndLocationLng() {
 		return fdoEndLocationLng;
 	}
 
-	public void setFdoEndLocationLng(double fdoEndLocationLng) {
+	public void setFdoEndLocationLng(BigDecimal fdoEndLocationLng) {
 		this.fdoEndLocationLng = fdoEndLocationLng;
 	}
 
-	public double getFdoStartLocationLat() {
+	public BigDecimal getFdoStartLocationLat() {
 		return fdoStartLocationLat;
 	}
 
-	public void setFdoStartLocationLat(double fdoStartLocationLat) {
+	public void setFdoStartLocationLat(BigDecimal fdoStartLocationLat) {
 		this.fdoStartLocationLat = fdoStartLocationLat;
 	}
 
-	public double getFdoStartLocationLng() {
+	public BigDecimal getFdoStartLocationLng() {
 		return fdoStartLocationLng;
 	}
 
-	public void setFdoStartLocationLng(double fdoStartLocationLng) {
+	public void setFdoStartLocationLng(BigDecimal fdoStartLocationLng) {
 		this.fdoStartLocationLng = fdoStartLocationLng;
 	}
 
@@ -73,37 +75,60 @@ public class tbPasos {
 	public void setFcPolyLine(String fcPolyLine) {
 		this.fcPolyLine = fcPolyLine;
 	}
-	
+
 	public String getQryStringInsert() {
 		return qryStringInsert;
 	}
 
 	public void setQryStringInsert(String qryStringInsert) {
 		this.qryStringInsert = qryStringInsert;
+	}	
+
+	public int getFiIdRuta() {
+		return fiIdRuta;
 	}
 
+	public void setFiIdRuta(int fiIdRuta) {
+		this.fiIdRuta = fiIdRuta;
+	}	
+
+	public int getFiIdPaso() {
+		return fiIdPaso;
+	}
+
+	public void setFiIdPaso(int fiIdPaso) {
+		this.fiIdPaso = fiIdPaso;
+	}
+
+	private int fiIdPaso;
+	private int fiIdRuta;
 	private String fcDistancia;
 	private int fiDistancia;
 	private String fcDuracion;
 	private int fiDuracion;
-	private double fdoEndLocationLat;
-	private double fdoEndLocationLng;
-	private double fdoStartLocationLat;
-	private double fdoStartLocationLng;
+	private BigDecimal fdoEndLocationLat;
+	private BigDecimal fdoEndLocationLng;
+	private BigDecimal fdoStartLocationLat;
+	private BigDecimal fdoStartLocationLng;
 	private String fcPolyLine;
 	private String qryStringInsert;
 
 	public tbPasos() {}
 	
-	public tbPasos(String fcDistancia, 
+	public tbPasos(
+			int fiIdPaso,
+			int fiIdRuta,
+			String fcDistancia, 
 			int fiDistancia, 
 			String fcDuracion, 
 			int fiDuracion, 
-			double fdoEndLocationLat, 
-			double fdoEndLocationLng,
-			double fdoStartLocationLat,
-			double fdoStartLocationLng,
+			BigDecimal fdoEndLocationLat, 
+			BigDecimal fdoEndLocationLng,
+			BigDecimal fdoStartLocationLat,
+			BigDecimal fdoStartLocationLng,
 			String fcPolyLine) {
+		this.fiIdPaso = fiIdPaso;
+		this.fiIdRuta = fiIdRuta;
 		this.fcDistancia = fcDistancia;
 		this.fiDistancia = fiDistancia;
 		this.fcDuracion = fcDuracion;
@@ -116,18 +141,18 @@ public class tbPasos {
 	}	
 	
 	public void tbPasosInsert(
-			int id,
+			int fiIdRuta,
 			String fcDistancia, 
 			int fiDistancia, 
 			String fcDuracion, 
 			int fiDuracion, 
-			double fdoEndLocationLat, 
-			double fdoEndLocationLng,
-			double fdoStartLocationLat,
-			double fdoStartLocationLng,
+			BigDecimal fdoEndLocationLat, 
+			BigDecimal fdoEndLocationLng,
+			BigDecimal fdoStartLocationLat,
+			BigDecimal fdoStartLocationLng,
 			String fcPolyLine) {
 		qryStringInsert = String.format("insert into tbPasos (fiIdRuta, fcDistancia, fiDistancia, fcDuracion, fiDuracion, fdoEndLocationLat, fdoEndLocationLng, fdoStartLocationLat, fdoStartLocationLng, fcPolyLine)values(%d, '%s', %d,'%s', %d, %f, %f, %f, %f,'%s');",  
-				id,
+				fiIdRuta,
 				fcDistancia, 
 				fiDistancia,
 				fcDuracion,

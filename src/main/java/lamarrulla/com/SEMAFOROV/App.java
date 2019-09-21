@@ -26,7 +26,8 @@ public class App
     public static void main( String[] args )
     {   
     	SaveRutasPasos srp = new SaveRutasPasos();    
-    	srp.generaDatosForRutas();
+    	//srp.generaDatosForRutas();
+    	srp.generaDatosForUsers();
     	
 //    	try {    		
 //			//URL url = new URL("https://maps.googleapis.com/maps/api/js/DirectionsService.Route?5m4&1m3&1m2&1d19.4950119&2d-99.11960449999998&5m4&1m3&1m2&1d19.2800339&2d-99.17037160000001&6e0&12ses-MX&23e1&callback=_xdc_._ft28bq&key=AIzaSyAndp8rBJEaJnxjKdLJV5rfxE8guaZH3Ic&token=106168");
@@ -74,17 +75,17 @@ public class App
 	        //System.out.println("GetDatos");	   
 	    	
 			//URL url = new URL("https://www.waze.com/row-rtserver/web/TGeoRSS?bottom=19.51304459775636&left=-99.28868293762208&ma=0&mj=0&mu=400&right=-99.09092903137207&top=19.55468708780126&types=alerts%2Ctraffic%2Cusers");
-			api.setUrl(urlGlobal);
-			api.get();
+//			api.setUrl(urlGlobal);
+//			api.get();
 			//System.out.println(netClientGet.getJso().toString());
 			//System.out.println(netClientGet.salida);	    		
-			JsonObject jsoWaze = new JsonParser().parse(api.getSalida()).getAsJsonObject();
-			JsonArray jsaUsers = jsoWaze.get("users").getAsJsonArray();		
-			for(JsonElement jUser: jsaUsers) {
-				JsonObject jsoUser = jUser.getAsJsonObject();
-				JsonObject latlng =  jsoUser.get("location").getAsJsonObject();
-				System.out.println(jsoUser.get("id").getAsString() + "|" + jsoUser.get("speed").getAsString() + "|" + latlng.get("x").toString() + "|" + latlng.get("y").getAsString());
-			}
+//			JsonObject jsoWaze = new JsonParser().parse(api.getSalida()).getAsJsonObject();
+//			JsonArray jsaUsers = jsoWaze.get("users").getAsJsonArray();		
+//			for(JsonElement jUser: jsaUsers) {
+//				JsonObject jsoUser = jUser.getAsJsonObject();
+//				JsonObject latlng =  jsoUser.get("location").getAsJsonObject();
+//				System.out.println(jsoUser.get("id").getAsString() + "|" + jsoUser.get("speed").getAsString() + "|" + latlng.get("x").toString() + "|" + latlng.get("y").getAsString());
+//			}
 			
 	    }
 	};

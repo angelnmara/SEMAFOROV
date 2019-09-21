@@ -5,11 +5,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import APIRest.API;
 import lamarrulla.com.Model.tbDatosGeneraRutas;
+import lamarrulla.com.Model.tbPasos;
 
 public class SaveRutasPasos {
 	static API api = new API();
@@ -28,6 +31,7 @@ public class SaveRutasPasos {
 	private String StartLocationLng;
 	private String yEk;
 	private String Token;
+	private int IdPaso;
 	
 	static Inserts ins = new Inserts();		
 	
@@ -36,18 +40,57 @@ public class SaveRutasPasos {
 		List<tbDatosGeneraRutas> ldgr = new ArrayList<tbDatosGeneraRutas>();
 		ldgr = ins.getListDatosGeneraRutas();
 		for(tbDatosGeneraRutas dgr : ldgr) {
-			EndLocationLat = String.valueOf(dgr.getFdoEndLocationLat());
-			EndLocationLng = String.valueOf(dgr.getFdoEndLocationLng());
-			StartLocationLat = String.valueOf(dgr.getFdoStartLocationLat());
-			StartLocationLng = String.valueOf(dgr.getFdoStartLocationLng());
+			EndLocationLat = dgr.getFdoEndLocationLat().toString();
+			EndLocationLng = dgr.getFdoEndLocationLng().toString();
+			StartLocationLat = dgr.getFdoStartLocationLat().toString();
+			StartLocationLng = dgr.getFdoStartLocationLng().toString();
 			yEk = dgr.getFcYek();
 			Token = dgr.getFcToken();
-			saveRutas();
+			getRutas();
 		}
 		ins.getListDatosGeneraRutas();
 	}
 	
-	public void saveRutas() {
+	public void generaDatosForUsers() {
+		ins.selectPasos();
+		List<tbPasos> listaTbPasos = new ArrayList<tbPasos>();
+		listaTbPasos = ins.getListPasos();
+		for(tbPasos tp: listaTbPasos) {
+			IdPaso = tp.getFiIdPaso();
+			EndLocationLat = tp.getFdoEndLocationLat().toString();
+			EndLocationLng = tp.getFdoEndLocationLng().toString();
+			StartLocationLat = tp.getFdoStartLocationLat().toString();
+			StartLocationLng = tp.getFdoStartLocationLng().toString();
+			getUser();
+		}
+	}
+	
+	public void getUser() {
+		try {
+			URL url = new URL("https://www.waze.com/row-rtserver/web/TGeoRSS?bottom=" + StartLocationLat + "&left=" + StartLocationLng + "&ma=0&mj=0&mu=400&right=" + EndLocationLng + "&top=" + EndLocationLat + "&types=alerts%2Ctraffic%2Cusers");
+			api.setUrl(url);
+			api.get();
+			System.out.println(api.getSalida().toString());
+			jso = new JsonParser().parse(api.getSalida().toString()).getAsJsonObject();
+			ins.setJso(jso);
+			ins.insertUsuarios();
+			//saveUsers();
+		}catch(Exception ex) {
+			System.out.println("Error al salvar usuario: " + ex.getMessage());
+		}
+	}
+	
+	public void saveUsers() {
+		JsonObject jsoWaze = new JsonParser().parse(api.getSalida()).getAsJsonObject();
+		JsonArray jsaUsers = jsoWaze.get("users").getAsJsonArray();		
+		for(JsonElement jUser: jsaUsers) {
+			JsonObject jsoUser = jUser.getAsJsonObject();
+			JsonObject latlng =  jsoUser.get("location").getAsJsonObject();
+			System.out.println(jsoUser.get("id").getAsString() + "|" + jsoUser.get("speed").getAsString() + "|" + latlng.get("x").toString() + "|" + latlng.get("y").getAsString());
+		}
+	}
+	
+	public void getRutas() {
 		
 		try {
 			URL url = new URL("https://maps.googleapis.com/maps/api/js/DirectionsService.Route?5m4&1m3&1m2&1d" + StartLocationLat + "&2d" + StartLocationLng + "&5m4&1m3&1m2&1d" + EndLocationLat + "&2d" + EndLocationLng + "&6e0&12ses-MX&23e1&callback=_xdc_._ft28bq&key=" + yEk + "&token=" + Token);
@@ -89,4 +132,10 @@ public class SaveRutasPasos {
     			ins.insertRutas();
     	}
 	}
+	
+//	public void getDatosPasosForWaze() {
+//		ins.selectPasos();
+//		generaDatosForUsers();
+//	}
+	
 }

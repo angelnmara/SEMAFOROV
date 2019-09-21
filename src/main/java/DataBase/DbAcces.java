@@ -89,7 +89,7 @@ public class DbAcces {
 	public void execQry() {
 		try {
 			ps = connection.prepareStatement(strQuery);
-			ps.executeQuery();
+			ps.execute();
 			rs = ps.getResultSet();
 			if(rs!=null) {
 				if(rs.next()) {
