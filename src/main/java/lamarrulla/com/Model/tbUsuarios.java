@@ -89,7 +89,15 @@ public class tbUsuarios {
 	}
 	public void setFnIngroup(boolean fnIngroup) {
 		this.fnIngroup = fnIngroup;
+	}	
+	
+	public String getQryStringInsert() {
+		return qryStringInsert;
 	}
+	public void setQryStringInsert(String qryStringInsert) {
+		this.qryStringInsert = qryStringInsert;
+	}
+
 	private int fiIdUsuario;
 	private int fiIdPaso;
 	private String fcFleet;
@@ -104,6 +112,7 @@ public class tbUsuarios {
 	private String fcUserName;
 	private BigDecimal fdoSpeed;
 	private boolean fnIngroup;
+	private String qryStringInsert;
 	
 	public tbUsuarios() {}
 	public tbUsuarios(int fiIdUsuario, 
@@ -136,6 +145,19 @@ public class tbUsuarios {
 		this.fnIngroup = fnIngroup;
 	}
 	public void tbUsuariosInsert() {
-		
+		qryStringInsert = String.format("insert into tbUsuarios(fiIdPaso,fcFleet,fiMagvar,fnInscale,fiMod,fiAddon,fiPing,fdoLocationLat,fdoLocationLng,fcId,fcUserName,fdoSpeed,fnIngroup) values (%d,'%s',%d,%s,%d,%d,%d,%f,%f,'%s','%s',%f,%s);", 				
+				fiIdPaso,
+				fcFleet,
+				fiMagvar,
+				fnInscale,
+				fiMod,
+				fiAddon,
+				fiPing,
+				fdoLocationLat,
+				fdoLocationLng,
+				fcId,
+				fcUserName,
+				fdoSpeed,
+				fnIngroup);
 	}
 }

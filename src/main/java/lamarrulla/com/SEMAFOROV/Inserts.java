@@ -9,7 +9,6 @@ import java.util.List;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import DataBase.DbAcces;
 import lamarrulla.com.Model.tbDatosGeneraRutas;
@@ -24,7 +23,15 @@ public class Inserts {
 	DbAcces dbAcces = new DbAcces();
 	List<tbRutas> listTbRutas;
 	List<tbDatosGeneraRutas> listDatosGeneraRutas;
-	List<tbPasos> listPasos;
+	List<tbPasos> listPasos;	
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public List<tbPasos> getListPasos() {
 		return listPasos;
@@ -157,8 +164,15 @@ public class Inserts {
 			ResultSet rs = dbAcces.getRs();
 			if (rs != null) {
 				while (rs.next()) {
-					tbRutas tbruta = new tbRutas(rs.getString(2), rs.getInt(3), rs.getString(4), rs.getInt(5),
-							rs.getString(6), rs.getDouble(7), rs.getDouble(8), rs.getString(9), rs.getDouble(10),
+					tbRutas tbruta = new tbRutas(rs.getString(2), 
+							rs.getInt(3), 
+							rs.getString(4), 
+							rs.getInt(5),
+							rs.getString(6), 
+							rs.getDouble(7), 
+							rs.getDouble(8), 
+							rs.getString(9), 
+							rs.getDouble(10),
 							rs.getDouble(11));
 					listTbRutas.add(tbruta);
 					// System.out.println();
@@ -179,6 +193,26 @@ public class Inserts {
 			for(JsonElement jUser: jsaUsers) {
 				JsonObject jsoUser = jUser.getAsJsonObject();
 				JsonObject latlng =  jsoUser.get("location").getAsJsonObject();
+				tbUsuarios tu = new tbUsuarios();
+				tu.setFiIdPaso(id); // validar id paso
+				tu.setFcFleet(jsoUser.get("fleet").getAsString());
+				tu.setFiMagvar(jsoUser.get("magvar").getAsInt());
+				tu.setFnInscale(jsoUser.get("inscale").getAsBoolean());
+				tu.setFiMod(jsoUser.get("mood").getAsInt());
+				tu.setFiAddon(jsoUser.get("addon").getAsInt());
+				tu.setFiPing(jsoUser.get("ping").getAsInt());
+				tu.setFdoLocationLat(latlng.get("x").getAsBigDecimal());
+				tu.setFdoLocationLng(latlng.get("y").getAsBigDecimal());
+				tu.setFcId(jsoUser.get("id").getAsString());
+				tu.setFcUserName(jsoUser.get("userName").getAsString());
+				tu.setFdoSpeed(jsoUser.get("speed").getAsBigDecimal());
+				tu.setFnIngroup(jsoUser.get("ingroup").getAsBoolean());
+				tu.tbUsuariosInsert();
+				//System.out.println(tu.getQryStringInsert());
+				dbAcces.connectDatabase();
+				dbAcces.setStrQuery(tu.getQryStringInsert());
+				dbAcces.execQry();
+				dbAcces.disconnectDatabase();
 				//System.out.println(jsoUser.get("id").getAsString() + "|" + jsoUser.get("speed").getAsString() + "|" + latlng.get("x").toString() + "|" + latlng.get("y").getAsString());
 				//tbUsuarios tbusuarios = new tbUsuarios();
 			}
@@ -240,9 +274,12 @@ public class Inserts {
 				JsonObject jsoStartLocationStep = jsoStep.getAsJsonObject().getAsJsonObject("start_location");
 
 				tbPasos tbpasos = new tbPasos();
-				tbpasos.tbPasosInsert(id, jsoDistanceStep.get("text").getAsString(),
-						jsoDistanceStep.get("value").getAsInt(), jsoDurationStep.get("text").getAsString(),
-						jsoDurationStep.get("value").getAsInt(), jsoEndLocationStep.get("lat").getAsBigDecimal(),
+				tbpasos.tbPasosInsert(id, 
+						jsoDistanceStep.get("text").getAsString(),
+						jsoDistanceStep.get("value").getAsInt(), 
+						jsoDurationStep.get("text").getAsString(),
+						jsoDurationStep.get("value").getAsInt(), 
+						jsoEndLocationStep.get("lat").getAsBigDecimal(),
 						jsoEndLocationStep.get("lng").getAsBigDecimal(),
 						jsoStartLocationStep.get("lat").getAsBigDecimal(),
 						jsoStartLocationStep.get("lng").getAsBigDecimal(),

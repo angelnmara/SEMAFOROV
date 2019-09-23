@@ -21,7 +21,7 @@ public class App
     public static void main( String[] args )
     {   
     	SaveRutasPasos srp = new SaveRutasPasos();    
-    	srp.generaDatosForRutas();
+    	//srp.generaDatosForRutas();
     	srp.generaDatosForUsers();
     	
 //    	try {    		

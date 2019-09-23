@@ -72,6 +72,7 @@ public class SaveRutasPasos {
 			api.get();
 			System.out.println(api.getSalida().toString());
 			jso = new JsonParser().parse(api.getSalida().toString()).getAsJsonObject();
+			ins.setId(IdPaso);
 			ins.setJso(jso);
 			ins.insertUsuarios();
 			//saveUsers();

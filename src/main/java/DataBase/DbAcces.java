@@ -59,7 +59,7 @@ public class DbAcces {
                     user, passw);
 
             boolean valid = connection.isValid(50000);
-            System.out.println(valid ? "TEST OK" : "TEST FAIL");
+            //System.out.println(valid ? "TEST OK" : "TEST FAIL");
         } catch (java.sql.SQLException sqle) {
             System.out.println("Error: " + sqle);
         }
@@ -79,7 +79,7 @@ public class DbAcces {
 				closeConnection = connection.isClosed();
 			}
 							
-			System.out.println(closeConnection||closeRs||closePs?"Coneccion cerrada":"valida la conexion sigue abierta");
+			//System.out.println(closeConnection||closeRs||closePs?"Coneccion cerrada":"valida la conexion sigue abierta");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

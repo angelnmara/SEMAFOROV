@@ -1,4 +1,4 @@
--- Database: SEMAFOROV
+﻿-- Database: SEMAFOROV
 
 -- DROP DATABASE "SEMAFOROV";
 
@@ -81,7 +81,7 @@ insert into tbDatosGeneraRutas(fcDescDatosGeneraRutas,
 									  19.4950119, 
 									  -99.11960449999998, 
 									 'AIzaSyDkeEm6iunIM2P4qFZbYmxaxhItMUsY_h0', 
-									 '130434');
+									 '124878');
 									 
 					 
 commit transaction;
