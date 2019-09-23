@@ -1,2 +1,4 @@
 LOG:  could not open configuration file "/opt/local/var/db/postgresql96/defaultdb/postgresql.conf": Permission denied
 FATAL:  configuration file "/opt/local/var/db/postgresql96/defaultdb/postgresql.conf" contains errors
+LOG:  could not open configuration file "/opt/local/var/db/postgresql96/defaultdb/postgresql.conf": Permission denied
+FATAL:  configuration file "/opt/local/var/db/postgresql96/defaultdb/postgresql.conf" contains errors

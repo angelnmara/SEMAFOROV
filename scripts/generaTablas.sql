@@ -16,9 +16,9 @@ CREATE DATABASE "SEMAFOROV"
 begin transaction;
 
 drop table if exists tbDatosGeneraRutas;
+drop table if exists tbUsuarios;
 DROP TABLE IF EXISTS tbPasos;
 DROP TABLE IF EXISTS tbRutas;
-drop table if exists tbUsuarios;
 
 create table if not exists tbDatosGeneraRutas(fiIdDatosGeneraRutas serial primary key,
 								fcDescDatosGeneraRutas varchar(200),
@@ -56,8 +56,8 @@ create table if not exists tbPasos (fiIdPaso serial primary key,
 create table if not exists tbUsuarios(fiIdUsuario serial primary key,
 									 fiIdPaso integer references tbPasos(fiIdPaso),
 									 fcFleet varchar(50),
-									 fcMagvar int,
-									 fnInscale bit,
+									 fiMagvar int,
+									 fnInscale boolean,
 									 fiMod int,
 									 fiAddon int,
 									 fiPing int,
@@ -66,7 +66,7 @@ create table if not exists tbUsuarios(fiIdUsuario serial primary key,
 									 fcId varchar(100),
 									 fcUserName varchar(200),
 									 fdoSpeed float8,
-									 fnIngroup bit);
+									 fnIngroup boolean);
 					 
 insert into tbDatosGeneraRutas(fcDescDatosGeneraRutas,
 							fdoEndLocationLat,
@@ -82,6 +82,7 @@ insert into tbDatosGeneraRutas(fcDescDatosGeneraRutas,
 									  -99.11960449999998, 
 									 'AIzaSyDkeEm6iunIM2P4qFZbYmxaxhItMUsY_h0', 
 									 '130434');
+									 
 					 
 commit transaction;
 
@@ -129,6 +130,34 @@ begin transaction;
 						 -99.11982119999999,
 						 'cs~uBzi~{QjAPh@FTB`@Dv@Df@FZDd@FVDNBLBJBrBb@@?zA^d@Jb@L\\JXJJDJDLDPHXLDBPHLFPHLH\\RZPDDFDJHNJZV~AnAFDHFVPp@h@vAhAb@Z|C`C^XlA|@f@b@t@j@z@t@`Ax@NNfAz@TPl@d@PLf@`@tA`Al@b@rBxAr@j@PJn@f@`@Zz@p@JFZVLHrAbAl@d@pDrCnA`Al@f@n@d@dDfC|AnA|BnBnDpCr@h@b@\\dAv@HDZT\\THFh@`@`@X|@p@`E~CrEdDl@b@pB~A^Z`EjD'
 					 );
+					 
+					 	insert into tbUsuarios(fiIdPaso,
+						fcFleet,
+						fiMagvar,
+						fnInscale,
+						fiMod,
+						fiAddon,
+						fiPing,
+						fdoLocationLat,
+						fdoLocationLng,
+						fcId,
+						fcUserName,
+						fdoSpeed,
+						fnIngroup) values (1,
+										   'none',
+										  0,
+										  true,
+										  49,
+										  0,
+										  1,
+										  -99.077,
+										  19.4525,
+										  'user-1952783957',
+										  'guest',
+										  12.216255542664635,
+										  false);								 
+
+
 					 
 select *
 from tbRutas;

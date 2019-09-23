@@ -9,11 +9,13 @@ import java.util.List;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import DataBase.DbAcces;
 import lamarrulla.com.Model.tbDatosGeneraRutas;
 import lamarrulla.com.Model.tbPasos;
 import lamarrulla.com.Model.tbRutas;
+import lamarrulla.com.Model.tbUsuarios;
 
 public class Inserts {
 
@@ -171,7 +173,15 @@ public class Inserts {
 	
 	public void insertUsuarios() {
 		if(jso.has("users")) {
-			System.out.println(jso.toString());
+			//System.out.println(jso.toString());
+			//JsonObject jsoWaze = new JsonParser().parse(jso).getAsJsonObject();
+			JsonArray jsaUsers = jso.get("users").getAsJsonArray();		
+			for(JsonElement jUser: jsaUsers) {
+				JsonObject jsoUser = jUser.getAsJsonObject();
+				JsonObject latlng =  jsoUser.get("location").getAsJsonObject();
+				//System.out.println(jsoUser.get("id").getAsString() + "|" + jsoUser.get("speed").getAsString() + "|" + latlng.get("x").toString() + "|" + latlng.get("y").getAsString());
+				//tbUsuarios tbusuarios = new tbUsuarios();
+			}
 		}
 	}
 

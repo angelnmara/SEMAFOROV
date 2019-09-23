@@ -2,11 +2,6 @@ package lamarrulla.com.SEMAFOROV;
 
 import java.net.URL;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import APIRest.API;
 /**
  * Hello world!
@@ -26,7 +21,7 @@ public class App
     public static void main( String[] args )
     {   
     	SaveRutasPasos srp = new SaveRutasPasos();    
-    	//srp.generaDatosForRutas();
+    	srp.generaDatosForRutas();
     	srp.generaDatosForUsers();
     	
 //    	try {    		
