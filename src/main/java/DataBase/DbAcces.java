@@ -12,6 +12,8 @@ public class DbAcces {
 	static String database = "SEMAFOROV";
 	static String user = "postgres";
 	static String passw = "maradr";
+	static int tipoDatabase = 2;
+	private String instance = "semaforovins";
 	Connection connection = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
@@ -52,13 +54,26 @@ public class DbAcces {
             } catch (ClassNotFoundException ex) {
                 System.out.println("Error al registrar el driver de PostgreSQL: " + ex);
             }            
+            
             // Database connect
-            // Conectamos con la base de datos
-            connection = DriverManager.getConnection(
-                    "jdbc:postgresql://" + server + ":" + puerto + "/" + database,
-                    user, passw);
+            
+            switch(tipoDatabase) {
+            	case 1:
+            		// Conectamos con la base de datos
+            		connection = DriverManager.getConnection(
+                            "jdbc:postgresql://" + server + ":" + puerto + "/" + database,
+                            user, passw);
+            		break;
+            	case 2:
+            		// conectamos con gcloud            
+                    connection = DriverManager.getConnection("jdbc:postgresql://google/" + database + "?cloudSqlInstance=" + instance + "&socketFactory=com.google.cloud.sql.postgres.SocketFactory&user=" + user + "&password=" + passw);
+                    break;
+                default:
+                	System.out.println("No se ha definido una conexion a base de datos");
+                	break;                	            	
+            }                                                         
 
-            boolean valid = connection.isValid(50000);
+            //boolean valid = connection.isValid(50000);
             //System.out.println(valid ? "TEST OK" : "TEST FAIL");
         } catch (java.sql.SQLException sqle) {
             System.out.println("Error: " + sqle);

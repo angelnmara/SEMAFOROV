@@ -1,8 +1,12 @@
 package lamarrulla.com.SEMAFOROV;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +24,22 @@ public class Inserts {
 
 	JsonObject jso;
 	int id;
+	boolean ultimoRegistro;
 	DbAcces dbAcces = new DbAcces();
 	List<tbRutas> listTbRutas;
 	List<tbDatosGeneraRutas> listDatosGeneraRutas;
-	List<tbPasos> listPasos;	
-	
+	List<tbPasos> listPasos;
+	FileWriter csvWriter;
+	BufferedWriter bw = null;
+
+	public boolean isUltimoRegistro() {
+		return ultimoRegistro;
+	}
+
+	public void setUltimoRegistro(boolean ultimoRegistro) {
+		this.ultimoRegistro = ultimoRegistro;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -185,10 +200,92 @@ public class Inserts {
 		}
 	}
 	
+	public void guardaCSVUsuarios() {
+		try {
+			if(jso.has("users")) {
+				
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+				LocalDateTime now = LocalDateTime.now();
+				System.out.println(dtf.format(now)); 
+
+				JsonArray jsaUsers = jso.get("users").getAsJsonArray();		
+				for(JsonElement jUser: jsaUsers) {
+					JsonObject jsoUser = jUser.getAsJsonObject();
+					JsonObject latlng =  jsoUser.get("location").getAsJsonObject();
+					
+					bw = new BufferedWriter(new FileWriter("SEMAFOROV.csv", true));
+					bw.write(String.valueOf(id));
+					bw.write(",");
+					bw.write(jsoUser.get("fleet").getAsString());
+					bw.write(",");
+					bw.write(String.valueOf(jsoUser.get("magvar").getAsInt()));
+					bw.write(",");
+					bw.write(String.valueOf(jsoUser.get("inscale").getAsBoolean()));
+					bw.write(",");
+					bw.write(String.valueOf(jsoUser.get("mood").getAsInt()));
+					bw.write(",");
+					bw.write(String.valueOf(jsoUser.get("addon").getAsInt()));
+					bw.write(",");
+					bw.write(String.valueOf(jsoUser.get("ping").getAsInt()));
+					bw.write(",");
+					bw.write(String.valueOf(latlng.get("x").getAsBigDecimal()));
+					bw.write(",");
+					bw.write(String.valueOf(latlng.get("y").getAsBigDecimal()));
+					bw.write(",");
+					bw.write(String.valueOf(jsoUser.get("id").getAsString()));
+					bw.write(",");
+					bw.write(jsoUser.get("userName").getAsString());
+					bw.write(",");
+					bw.write(String.valueOf(jsoUser.get("speed").getAsBigDecimal()));
+					bw.write(",");
+					bw.write(String.valueOf(jsoUser.get("ingroup").getAsBoolean()));
+					bw.newLine();
+					bw.flush();
+					
+//						csvWriter.append(String.valueOf(id));
+//						csvWriter.append(",");
+//						csvWriter.append(jsoUser.get("fleet").getAsString());
+//						csvWriter.append(",");
+//						csvWriter.append(String.valueOf(jsoUser.get("magvar").getAsInt()));
+//						csvWriter.append(",");
+//						csvWriter.append(String.valueOf(jsoUser.get("inscale").getAsBoolean()));
+//						csvWriter.append(",");
+//						csvWriter.append(String.valueOf(jsoUser.get("mood").getAsInt()));
+//						csvWriter.append(",");
+//						csvWriter.append(String.valueOf(jsoUser.get("addon").getAsInt()));
+//						csvWriter.append(",");
+//						csvWriter.append(String.valueOf(jsoUser.get("ping").getAsInt()));
+//						csvWriter.append(",");
+//						csvWriter.append(String.valueOf(latlng.get("x").getAsBigDecimal()));
+//						csvWriter.append(",");
+//						csvWriter.append(String.valueOf(latlng.get("y").getAsBigDecimal()));
+//						csvWriter.append(",");
+//						csvWriter.append(String.valueOf(jsoUser.get("id").getAsString()));
+//						csvWriter.append(",");
+//						csvWriter.append(jsoUser.get("userName").getAsString());
+//						csvWriter.append(",");
+//						csvWriter.append(String.valueOf(jsoUser.get("speed").getAsBigDecimal()));
+//						csvWriter.append(",");
+//						csvWriter.append(String.valueOf(jsoUser.get("ingroup").getAsBoolean()));
+//						csvWriter.append("\n");
+									
+				}
+				//csvWriter.flush();
+				if(ultimoRegistro) {
+					//csvWriter.close();
+					bw.close();
+				}				
+			}
+		}catch(Exception ex) {
+			System.out.println(ex.getMessage());
+		}		
+	}
+	
 	public void insertUsuarios() {
 		if(jso.has("users")) {
 			//System.out.println(jso.toString());
 			//JsonObject jsoWaze = new JsonParser().parse(jso).getAsJsonObject();
+			String qryAll = "";
 			JsonArray jsaUsers = jso.get("users").getAsJsonArray();		
 			for(JsonElement jUser: jsaUsers) {
 				JsonObject jsoUser = jUser.getAsJsonObject();
@@ -208,14 +305,17 @@ public class Inserts {
 				tu.setFdoSpeed(jsoUser.get("speed").getAsBigDecimal());
 				tu.setFnIngroup(jsoUser.get("ingroup").getAsBoolean());
 				tu.tbUsuariosInsert();
+				qryAll += tu.getQryStringInsert();
 				//System.out.println(tu.getQryStringInsert());
-				dbAcces.connectDatabase();
-				dbAcces.setStrQuery(tu.getQryStringInsert());
-				dbAcces.execQry();
-				dbAcces.disconnectDatabase();
+				
 				//System.out.println(jsoUser.get("id").getAsString() + "|" + jsoUser.get("speed").getAsString() + "|" + latlng.get("x").toString() + "|" + latlng.get("y").getAsString());
 				//tbUsuarios tbusuarios = new tbUsuarios();
 			}
+			System.out.println(qryAll);
+			dbAcces.connectDatabase();
+			dbAcces.setStrQuery(qryAll);
+			dbAcces.execQry();
+			dbAcces.disconnectDatabase();
 		}
 	}
 
