@@ -73,8 +73,8 @@ public class DbAcces {
                 	break;                	            	
             }                                                         
 
-            //boolean valid = connection.isValid(50000);
-            //System.out.println(valid ? "TEST OK" : "TEST FAIL");
+            boolean valid = connection.isValid(50000);
+            System.out.println(valid ? "TEST OK" : "TEST FAIL");
         } catch (java.sql.SQLException sqle) {
             System.out.println("Error: " + sqle);
         }
