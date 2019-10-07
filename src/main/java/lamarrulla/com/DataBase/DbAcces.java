@@ -1,4 +1,4 @@
-package DataBase;
+package lamarrulla.com.DataBase;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,7 +13,7 @@ public class DbAcces {
 	static String user = "postgres";
 	static String passw = "maradr";
 	static int tipoDatabase = 2;
-	private String instance = "semaforovins";
+	private String instance = "deep-clock-253820:us-central1:semaforovins";
 	Connection connection = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
@@ -66,7 +66,13 @@ public class DbAcces {
             		break;
             	case 2:
             		// conectamos con gcloud            
-                    connection = DriverManager.getConnection("jdbc:postgresql://google/" + database + "?cloudSqlInstance=" + instance + "&socketFactory=com.google.cloud.sql.postgres.SocketFactory&user=" + user + "&password=" + passw);
+            		String jdbcUrl = String.format(
+            			    "jdbc:postgresql://google/%s?socketFactory=com.google.cloud.sql.postgres.SocketFactory"
+            			        + "&cloudSqlInstance=%s",
+            			    database,
+            			    instance);
+            		connection = DriverManager.getConnection(jdbcUrl, user, passw);
+
                     break;
                 default:
                 	System.out.println("No se ha definido una conexion a base de datos");

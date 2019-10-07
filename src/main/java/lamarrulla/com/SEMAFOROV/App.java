@@ -2,7 +2,13 @@ package lamarrulla.com.SEMAFOROV;
 
 import java.net.URL;
 
-import APIRest.API;
+import com.google.cloud.storage.Bucket;
+import com.google.cloud.storage.BucketInfo;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
+
+import lamarrulla.com.APIRest.API;
+import lamarrulla.com.Utils.ValidaGcloudAcces;
 /**
  * Hello world!
  *
@@ -18,9 +24,24 @@ public class App
 //	static String P2Longitude = "-99.17037160000001";
 //	static String yEk = "AIzaSyDkeEm6iunIM2P4qFZbYmxaxhItMUsY_h0";
 		
+	static ValidaGcloudAcces vgca = new ValidaGcloudAcces();
+	static SaveRutasPasos srp = new SaveRutasPasos();
+	
     public static void main( String[] args )
-    {   
-    	SaveRutasPasos srp = new SaveRutasPasos();    
+    {       	 
+    	
+    	// Instantiates a client
+        //Storage storage = StorageOptions.getDefaultInstance().getService();
+
+        // The name for the new bucket
+        //String bucketName = args[0];  // "my-new-bucket";
+
+        // Creates the new bucket
+        //Bucket bucket = storage.create(BucketInfo.of(bucketName));
+
+        //System.out.printf("Bucket %s created.%n", bucket.getName());
+    	
+    	vgca.validaAccess();
     	//srp.generaDatosForRutas();
     	srp.generaDatosForUsers();
     	
