@@ -41,7 +41,7 @@ public class App
 
         //System.out.printf("Bucket %s created.%n", bucket.getName());
     	
-    	vgca.validaAccess();
+    	//vgca.validaAccess();
     	//srp.generaDatosForRutas();
     	srp.generaDatosForUsers();
     	

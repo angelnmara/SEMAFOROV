@@ -13,7 +13,7 @@ public class DbAcces {
 	static String user = "postgres";
 	static String passw = "maradr";
 	static int tipoDatabase = 2;
-	private String instance = "deep-clock-253820:us-central1:semaforovins";
+	private String instance = "deep-clock-253820:us-central1:semafirivi";
 	Connection connection = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
