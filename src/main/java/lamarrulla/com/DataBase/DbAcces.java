@@ -8,12 +8,12 @@ import java.sql.SQLException;
 
 public class DbAcces {
 	static String server = "127.0.0.1";
-	static String puerto = "5432";
-	static String database = "SEMAFOROV";
+	static String puerto = "5430";
+	static String database = "postgres";
 	static String user = "postgres";
 	static String passw = "maradr";
 	static int tipoDatabase = 2;
-	private String instance = "deep-clock-253820:us-central1:semafirivi";
+	private String instance = "semaforov-258100:us-central1:semaforovins";
 	Connection connection = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
@@ -72,6 +72,8 @@ public class DbAcces {
             			    database,
             			    instance);
             		connection = DriverManager.getConnection(jdbcUrl, user, passw);
+//            		String j = "jdbc:postgresql://google/" + database + "?cloudSqlInstance=" + instance + "&socketFactory=com.google.cloud.sql.postgres.SocketFactory&user=" + user + "&password=" + passw;
+            		connection = DriverManager.getConnection(jdbcUrl);
 
                     break;
                 default:

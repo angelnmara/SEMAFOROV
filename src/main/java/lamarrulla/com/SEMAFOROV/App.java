@@ -1,5 +1,6 @@
 package lamarrulla.com.SEMAFOROV;
 
+import java.io.IOException;
 import java.net.URL;
 
 import com.google.cloud.storage.Bucket;
@@ -41,8 +42,13 @@ public class App
 
         //System.out.printf("Bucket %s created.%n", bucket.getName());
     	
-    	//vgca.validaAccess();
-    	//srp.generaDatosForRutas();
+    	try {
+			vgca.authExplicit("C:\\Users\\daver\\Documents\\cuentasServicioGCLOUD\\semaforov-258100-7aa9fbe26f59.json");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	srp.generaDatosForRutas();
     	srp.generaDatosForUsers();
     	
 //    	try {    		
