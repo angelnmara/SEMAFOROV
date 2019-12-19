@@ -19,6 +19,19 @@ drop table if exists tbDatosGeneraRutas;
 drop table if exists tbUsuarios;
 DROP TABLE IF EXISTS tbPasos;
 DROP TABLE IF EXISTS tbRutas;
+drop table if exists tbCredenciales;
+
+create table if not exists tbCredenciales(fiIdCredencial serial primary key,
+				fcYeK varchar(1000));
+
+/*
+create table if not exists tbDatosRutas(fiIdDR serial primary key,
+							fcNombreDR varchar(200),
+							fdoEndLocationLatDR float8 not null,
+							fdoEndLocationLngDR float8 not null,
+							fdoStartLocationLatDR float8 not null,
+							fdoStartLocationLngDR float8 not null);
+
 
 create table if not exists tbDatosGeneraRutas(fiIdDatosGeneraRutas serial primary key,
 								fcDescDatosGeneraRutas varchar(200),
@@ -28,6 +41,7 @@ create table if not exists tbDatosGeneraRutas(fiIdDatosGeneraRutas serial primar
 							   fdoStartLocationLng float8 not null,
 											 fcYek varchar(1000),
 											 fcToken varchar(100));
+*/											 
 
 create table if not exists tbRutas (fiIdRuta serial primary key,
 					  fcDistance varchar(50),
@@ -67,7 +81,9 @@ create table if not exists tbUsuarios(fiIdUsuario serial primary key,
 									 fcUserName varchar(200),
 									 fdoSpeed float8,
 									 fnIngroup boolean);
-					 
+
+insert into tbCredenciales(fcYeK)values('AIzaSyDkeEm6iunIM2P4qFZbYmxaxhItMUsY_h0');
+					 /*
 insert into tbDatosGeneraRutas(fcDescDatosGeneraRutas,
 							fdoEndLocationLat,
 							   fdoEndLocationLng,
@@ -83,7 +99,7 @@ insert into tbDatosGeneraRutas(fcDescDatosGeneraRutas,
 									 'AIzaSyDkeEm6iunIM2P4qFZbYmxaxhItMUsY_h0', 
 									 '124878');
 									 
-					 
+					 */
 commit transaction;
 
 begin transaction;
